@@ -35,7 +35,7 @@ class Post_Types extends Base {
 	 * @return void
 	 */
 	public function init(): void {
-		new Publication( $this->settings );
+		// new Publication( $this->settings );
 
 		\add_filter( 'page-links-to-post-types', array( $this, 'external_links' ) );
 	}

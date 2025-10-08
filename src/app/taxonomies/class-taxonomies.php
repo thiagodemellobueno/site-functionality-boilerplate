@@ -33,7 +33,7 @@ class Taxonomies extends Base {
 	 * @return void
 	 */
 	public function init(): void {
-		new Publication_Type( $this->settings );
+		// new Publication_Type( $this->settings );
 	}
 
 }

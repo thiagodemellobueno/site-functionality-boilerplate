@@ -16,24 +16,29 @@ use Site_Functionality\Common\Abstracts\Taxonomy;
  * @package Site_Functionality\App\Taxonomies
  * @since 1.0.0
  */
-class Publication_Type extends Taxonomy {
+class Homepage_Featured extends Taxonomy {
 
 	/**
 	 * Taxonomy data
 	 */
 	public static $taxonomy = array(
-		'id'          => 'publication_type',
-		'title'       => 'Publication Types',
-		'singular'    => 'Publication Type',
-		'menu'        => 'Types',
-		'post_types'  => array( 
-			'publication'
+		'id'          => 'abcnr-homepage-featured',
+		'title'       => 'Featured',
+		'singular'    => 'Featured',
+		'menu'        => 'Featured',
+		'post_types'  => array(
+			'abcnr-program',
+			'abcnr-event',
+			'abcnr-article'
 		),
 		'has_archive' => false,
 		'archive'     => false,
 		'with_front'  => false,
-		'rest'        => 'publication-types',
+		'rest'        => 'homepage-featured',
 	);
+
+	}
+
 
 	/**
 	 * Constructor.

@@ -1,0 +1,38 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "site-functionality/subtitle",
+  "version": "1.0.0",
+  "title": "Subtitle",
+  "category": "text",
+  "icon": "editor-aligncenter",
+  "description": "Add subtitle to content.",
+  "attributes": {
+    "subtitle": {
+      "type": "string"
+    },
+    "brief_number": {
+      "type": "string"
+    }
+  },
+  "usesContext": [
+    "postId",
+    "postType"
+  ],
+  "example": {
+    "attributes": {
+      "subtitle": "Quincy Brief",
+      "reportMeta": "29"
+    }
+  },
+  "supports": {
+    "html": false,
+    "multiple": false,
+    "customClassName": true
+  },
+  "textdomain": "site-functionality",
+  "editorScript": "site-functionality",
+  "render": "file:./render.php",
+  "viewScript": "site-functionality",
+  "editorStyle": "file:./index.css"
+}

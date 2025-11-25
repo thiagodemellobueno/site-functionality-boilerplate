@@ -12,7 +12,6 @@ import { registerBlockType } from '@wordpress/blocks';
  *
  * @see https://www.npmjs.com/package/@wordpress/scripts#using-css
  */
-import './style.scss';
 
 /**
  * Internal dependencies
@@ -25,8 +24,6 @@ import metadata from './block.json';
  *
  * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-registration/
  */
-
-console.log('hihihi')
 registerBlockType( metadata.name, {
 	/**
 	 * @see ./edit.js

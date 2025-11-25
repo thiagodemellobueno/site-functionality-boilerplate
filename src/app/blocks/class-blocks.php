@@ -32,6 +32,8 @@ class Blocks extends Base {
 	 * @return void
 	 */
 	public function init(): void {
+
+
 		add_action( 'init', array( $this, 'register_block_patterns' ) );
 
 		add_action( 'init', array( $this, 'set_script_translations' ) );
@@ -41,16 +43,18 @@ class Blocks extends Base {
 		add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_blocks_scripts' ) );
 
 		add_filter( 'block_categories_all', array( $this, 'register_block_category' ), 10, 2 );
+
+
 	}
 
 	/**
-     * Registers blocks using metadata from `block.json`.
-     *
-     * @return void
-     */
-    public function register_blocks(): void {
-        register_block_type_from_metadata( __DIR__ . '/build/block' );
-    }
+	 * Registers blocks using metadata from `block.json`.
+	 *
+	 * @return void
+	 */
+	public function register_blocks(): void {
+		register_block_type_from_metadata( __DIR__ . '/build/block' );
+	}
 
 	/**
 	 * Register block patterns
@@ -85,5 +89,4 @@ class Blocks extends Base {
 	 * @return void
 	 */
 	public function enqueue_blocks_scripts(): void {}
-
 }

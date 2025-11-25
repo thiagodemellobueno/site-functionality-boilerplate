@@ -1,12 +1,12 @@
 {
-    "name": "misfist/site-functionality",
+    "name": "madeofpeople/site-functionality",
     "description": "Custom plugin for WordPress project.",
     "type": "wordpress-plugin",
     "license": "GPL-2.0+-or-later",
     "authors": [
         {
-            "name": "Pea",
-            "email": "pea@misfist.com"
+            "name": "Thiago",
+            "email": "thiago@madeofpeople.org"
         }
     ],
     "minimum-stability": "dev",
@@ -17,7 +17,7 @@
         "allow-plugins": {
             "composer/installers": true,
             "dealerdirect/phpcodesniffer-composer-installer": true
-        },
+          },
         "optimize-autoloader": true
     },
     "autoload": {
@@ -48,7 +48,12 @@
         }
     },
     "require": {
-        "php": ">=7.4"
+        "php": ">=7.4",
+        "wp-graphql/wp-graphql": "^2.5",
+        "wpackagist-plugin/enable-cors": "^2.0",
+        "wpackagist-plugin/secure-custom-fields": "^6.4",
+        "wpackagist-plugin/wp-gatsby": "^2.3",
+        "wpackagist-plugin/wp-graphql": "^2.5"
     },
     "require-dev": {
         "dealerdirect/phpcodesniffer-composer-installer": "*",
@@ -61,6 +66,9 @@
         "wp-coding-standards/wpcs": "*"
     },
     "scripts": {
+        "build": [
+          "composer install && npm i yarn && cd ./src/app/blocks/ && yarn install && yarn build && cd ../../../"
+        ],
         "lint": [
             "vendor/bin/phpcbf || true",
             "vendor/bin/phpcs || true",

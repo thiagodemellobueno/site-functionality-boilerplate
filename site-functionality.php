@@ -1,4 +1,5 @@
 <?php
+
 /**
  * The plugin bootstrap file
  *
@@ -12,19 +13,19 @@
  * @package           site-functionality
  *
  * @wordpress-plugin
- * Plugin Name:       Site Functionality
- * Plugin URI:        http://github.com/username/site-functionality/
+ * Plugin Name:       ABC No Rio Custom Site Functionality
+ * Plugin URI:        http://github.com/madeofpeople/site-functionality/
  * Description:       This is a short description of what the plugin does. It's displayed in the WordPress admin area.
  * Version:           1.0.0
  * Requires PHP:      7.4
- * Author:            Misfist
- * Author URI:        https://github.com/misfist/site-functionality/
+ * Author:            Made of People
+ * Author URI:        https://github.com/madeofpeople/site-functionality/
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:       site-functionality
  * Domain Path:       /languages
  *
- * GitHub Plugin URI: https://github.com/misfist/site-functionality/
+ * GitHub Plugin URI: https://github.com/madeofpeople/site-functionality/
  * Release Asset:     true
  */
 
@@ -56,6 +57,47 @@ define( 'SITE_FUNCTIONALITY_URL', trailingslashit( plugins_url( plugin_basename(
 
 register_activation_hook( __FILE__, array( Activator::class, 'activate' ) );
 register_deactivation_hook( __FILE__, array( Deactivator::class, 'deactivate' ) );
+
+// disable comments globally
+add_action('admin_init', function () {
+    // Redirect any user trying to access comments page
+    global $pagenow;
+
+    if ($pagenow === 'edit-comments.php') {
+        wp_safe_redirect(admin_url());
+        exit;
+    }
+
+    // Remove comments metabox from dashboard
+    remove_meta_box('dashboard_recent_comments', 'dashboard', 'normal');
+
+    // Disable support for comments and trackbacks in post types
+    foreach (get_post_types() as $post_type) {
+        if (post_type_supports($post_type, 'comments')) {
+            remove_post_type_support($post_type, 'comments');
+            remove_post_type_support($post_type, 'trackbacks');
+        }
+    }
+});
+add_filter('acf/settings/show_admin', '__return_false');
+// Close comments on the front-end
+add_filter('comments_open', '__return_false', 20, 2);
+add_filter('pings_open', '__return_false', 20, 2);
+
+// Hide existing comments
+add_filter('comments_array', '__return_empty_array', 10, 2);
+
+// Remove comments page in menu
+add_action('admin_menu', function () {
+    remove_menu_page('edit-comments.php');
+});
+
+// Remove comments links from admin bar
+add_action('init', function () {
+    if (is_admin_bar_showing()) {
+        remove_action('admin_bar_menu', 'wp_admin_bar_comments_menu', 60);
+    }
+});
 
 /**
  * Begins execution of the plugin.

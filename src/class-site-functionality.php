@@ -66,7 +66,6 @@ class Site_Functionality {
 		$plugin_i18n = new I18n();
 
 		add_action( 'init', array( $plugin_i18n, 'load_plugin_textdomain' ) );
-
 	}
 
 	/**
@@ -81,7 +80,6 @@ class Site_Functionality {
 
 		add_action( 'admin_enqueue_scripts', array( $admin_assets, 'enqueue_styles' ) );
 		add_action( 'admin_enqueue_scripts', array( $admin_assets, 'enqueue_scripts' ) );
-
 	}
 
 	/**
@@ -96,7 +94,6 @@ class Site_Functionality {
 
 		add_action( 'wp_enqueue_scripts', array( $frontend_assets, 'enqueue_styles' ) );
 		add_action( 'wp_enqueue_scripts', array( $frontend_assets, 'enqueue_scripts' ) );
-
 	}
 
 	/**
@@ -107,7 +104,6 @@ class Site_Functionality {
 	protected function load_dependencies(): void {
 		$post_types = new Post_Types( $this->settings );
 		$taxonomies = new Taxonomies( $this->settings );
-		$blocks	 = new Blocks( $this->settings );
+		$blocks     = new Blocks( $this->settings );
 	}
-
 }

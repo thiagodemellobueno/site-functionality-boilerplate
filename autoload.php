@@ -16,9 +16,9 @@ use Site_Functionality\Alley_Interactive\Autoloader\Autoloader;
 $class_map_files = array(
 	__DIR__ . '/autoload-classmap.php',
 );
+
 foreach ( $class_map_files as $class_map_file ) {
 	if ( file_exists( $class_map_file ) ) {
-
 		$class_map = include $class_map_file;
 
 		if ( is_array( $class_map ) ) {

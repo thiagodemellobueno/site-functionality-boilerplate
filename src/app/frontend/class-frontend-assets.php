@@ -2,7 +2,7 @@
 /**
  * The public-facing functionality of the plugin.
  *
- * @link       https://github.com/misfist/site-functionality
+ * @link       https://github.com/madeofpeople/site-functionality
  * @since      1.0.0
  *
  * @package    site-functionality
@@ -52,7 +52,6 @@ class Frontend_Assets {
 		$plugin_url = plugin_dir_url( $this->settings->get_plugin_basename() );
 
 		wp_enqueue_style( 'site-functionality', $plugin_url . 'assets/site-functionality-frontend.css', array(), $version, 'all' );
-
 	}
 
 	/**
@@ -67,8 +66,6 @@ class Frontend_Assets {
 
 		$plugin_url = plugin_dir_url( $this->settings->get_plugin_basename() );
 
-		wp_enqueue_script( 'site-functionality', $plugin_url . 'assets/site-functionality-frontend.js', array( 'jquery' ), $version, false );
-
+		wp_enqueue_script( 'site-functionality', $plugin_url . 'assets/frontend.js', array( 'jquery' ), $version, false );
 	}
-
 }

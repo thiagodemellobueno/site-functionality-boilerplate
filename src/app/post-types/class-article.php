@@ -1,6 +1,6 @@
 <?php
 /**
- * Content Post_Types
+ * Program Post_Type
  *
  * @since   1.0.0
  * @package Site_Functionality
@@ -14,31 +14,32 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class Publication extends Post_Type {
+class Article extends Post_Type {
 
 	/**
 	 * Post_Type data
 	 */
 	public static $post_type = array(
-		'id'          => 'publication',
-		'slug'        => 'publication',
-		'menu'        => 'Publication',
-		'title'       => 'Publications',
-		'singular'    => 'Publication',
-		'icon'        => 'dashicons-book-alt',
-		'taxonomies'  => array(
-			'publication_type'
-		),
+		'id'          => 'abcnr-article',
+		'slug'        => 'article',
+		'menu'        => 'Article',
+		'title'       => 'Articles',
+		'singular'    => 'Article',
+		'menu_icon'        => 'dashicons-book',
 		'has_archive' => false,
 		'with_front'  => false,
-		'rest_base'   => 'publications',
-		'supports'    => array( 
-			'title', 
-			'editor', 
-			'author', 
-			'thumbnail', 
-			'custom-fields', 
-			'external-links'
+		'rest_base'   => 'articles',
+		'taxonomies'    => array(
+			'collective-connect',
+		),
+		'supports'    => array(
+			'title',
+			'editor',
+			'author',
+			'excerpt',
+			'thumbnail',
+			'custom-fields',
+			'external-links',
 		),
 	);
 
@@ -57,8 +58,8 @@ class Publication extends Post_Type {
 	 */
 	public function init(): void {
 		parent::init();
-		// \add_action( 'init', array( $this, 'register_meta' ) );
-		\add_action( 'acf/init', array( $this, 'register_fields' ) );
+		\add_action( 'init', array( $this, 'register_meta' ) );
+		// \add_action( 'acf/init', array( $this, 'register_fields' ) );
 	}
 
 	/**
@@ -109,5 +110,4 @@ class Publication extends Post_Type {
 	public function register_query_vars( $vars ): array {
 		return $vars;
 	}
-
 }

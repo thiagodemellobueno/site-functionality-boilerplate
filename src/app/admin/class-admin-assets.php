@@ -64,7 +64,6 @@ class Admin_Assets {
 		$plugin_dir = plugin_dir_url( $this->settings->get_plugin_basename() );
 
 		wp_enqueue_style( 'site-functionality', $plugin_dir . 'assets/site-functionality-admin.css', array(), $version, 'all' );
-
 	}
 
 	/**
@@ -92,7 +91,5 @@ class Admin_Assets {
 		$plugin_dir = plugin_dir_url( $this->settings->get_plugin_basename() );
 
 		wp_enqueue_script( 'site-functionality', $plugin_dir . 'assets/site-functionality-admin.js', array( 'jquery' ), $version, true );
-
 	}
-
 }

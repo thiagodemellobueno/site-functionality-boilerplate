@@ -1,0 +1,31 @@
+/**
+ * The following styles get applied inside the editor only.
+ *
+ * Replace them with your own styles or remove the file completely.
+ */
+
+.wp-block-site-functionality-subtitle {
+	display: grid;
+	column-gap: var( --wp--preset--spacing--3 );
+	
+	.rich-text {
+		border-bottom: 2px solid  var( --wp--preset--color--gray-lightest );
+		margin-top: 0;
+		margin-bottom: 0;
+		padding-right: var( --wp--preset--spacing--1 );
+		padding-left: var( --wp--preset--spacing--1 );
+
+		font-family: var( --wp--preset--font-family--dm-sans );
+		font-size: var( --wp--preset--font-size--md );
+		font-weight: 700;
+
+		&:focus {
+			background-color: var( --wp--preset--color--gray-lightest );
+		}
+	}
+
+	@media screen and ( min-width: 769px ) {
+		grid-template-columns: .75fr .5fr;
+	}
+
+}

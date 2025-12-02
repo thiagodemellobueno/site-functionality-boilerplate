@@ -89,12 +89,14 @@ abstract class Taxonomy extends Base {
 			'public'            => true,
 			'show_ui'           => true,
 			'show_admin_column' => true,
-			'show_in_nav_menus' => true,
+			'show_in_nav_menus' => false,
 			'show_tagcloud'     => true,
 			'rewrite'           => $rewrite,
 			'show_in_rest'      => true,
+			'capabilities'		=> array_key_exists('capabilities', static::$taxonomy) ? static::$taxonomy['capabilities'] : array(),
 			'rest_base'         => static::$taxonomy['rest'],
 		);
+
 		\register_taxonomy(
 			static::$taxonomy['id'],
 			static::$taxonomy['post_types'],

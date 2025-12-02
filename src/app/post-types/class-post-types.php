@@ -35,7 +35,7 @@ class Post_Types extends Base {
 	 * @return void
 	 */
 	public function init(): void {
-	new Collective( $this->settings );
+		new Collective( $this->settings );
 		new Program( $this->settings );
 		new Event( $this->settings );
 		new Article( $this->settings );

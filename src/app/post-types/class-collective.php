@@ -68,8 +68,7 @@ class Collective extends Post_Type {
 			array(
 				'name'      => 'collective_location',
 				'label'     => __( 'Location', 'site-functionality' ),
-				'acf_type'  => 'text',
-				'meta_type' => 'string',
+				'type'  => 'text',
 				'prepend'   => '',
 			),
 		);
@@ -81,7 +80,7 @@ class Collective extends Post_Type {
 					'label'             => $field['label'],
 					'name'              => $field['name'],
 					'aria-label'        => '',
-					'type'              => $field['acf_type'],
+					'type'              => $field['type'],
 					'instructions'      => '',
 					'required'          => 0,
 					'conditional_logic' => 0,
@@ -96,9 +95,6 @@ class Collective extends Post_Type {
 					'prepend'           => $field['prepend'],
 					'append'            => '',
 				);
-				if ( 'number' === $field['acf_type'] && isset( $field['step'] ) ) {
-					$array['step'] = $field['step'];
-				}
 				return $array;
 			},
 			static::$fields

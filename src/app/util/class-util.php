@@ -1,22 +1,20 @@
 <?php
 /**
- * Content Taxonomies
+ * Content Post_Types
  *
  * @since   1.0.0
  * @package Site_Functionality
  */
-namespace Site_Functionality\App\Taxonomies;
+namespace Site_Functionality\Util;
 
 use Site_Functionality\Common\Abstracts\Base;
-use Site_Functionality\App\Taxonomies\Event_Type;
-use Site_Functionality\App\Taxonomies\Collective_Association;
 
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class Taxonomies extends Base {
+class Util extends Base {
 
 	/**
 	 * Constructor.
@@ -34,8 +32,7 @@ class Taxonomies extends Base {
 	 * @return void
 	 */
 	public function init(): void {
-		new Event_Type( $this->settings );
-		new Collective_Association( $this->settings );
+		$utilities = new Content_Util( $settings );
 	}
 
 }

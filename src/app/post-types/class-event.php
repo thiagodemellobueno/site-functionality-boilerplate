@@ -16,6 +16,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class Event extends Post_Type {
 
+
+	public static $timezones = array(); 
+	public static $default_timezone = NULL; 
+	
 	/**
 	 * Post_Type data
 	 */
@@ -29,6 +33,11 @@ class Event extends Post_Type {
 		'has_archive' => false,
 		'with_front'  => false,
 		'rest_base'   => 'events',
+		'taxonomies' => array(
+			'post_tag',
+			'abcnr-event-type',
+			'abcnr-collective-association'
+		),
 		'supports'    => array(
 			'title',
 			'editor',
@@ -47,11 +56,19 @@ class Event extends Post_Type {
 	 */
 	public function init(): void {
 		parent::init();
+		static::$timezones = \DateTimeZone::listIdentifiers( \DateTimeZone::AMERICA);
+		static::$default_timezone = array_search('America/New_York', static::$timezones);
+
 		\add_action( 'acf/init', array( $this, 'register_fields' ), 9 );
-		\add_action( 'init', array( $this, 'register_meta' ) );
+		//\add_action( 'init', array( $this, 'register_meta' ) );
 		\add_action( 'acf/prepare_field/type=date_picker', array( $this, 'modify_date_picker' ) );
+		\add_filter( 'acf/load_field/key=field_timezone', array($this, 'set_default_timezone') );
 	}
 
+	public function set_default_timezone($field) {
+		$field['default_value'] = static::$default_timezone;
+		return $field;
+	}
 
 	/**
 	 * Register Custom Fields
@@ -60,41 +77,51 @@ class Event extends Post_Type {
 	 */
 	public function register_fields(): void {
 
+
+	
+		// @todo
+		// Move the selection of a default timezone to an option screen
+		$index = 0;
+		$options = array();
+
 		static::$fields = array(
 
 			array(
+				'name'      => 'timezone',
+				'label'     => __( 'Time Zone', 'site-functionality' ),
+				'type'  => 'select',
+				'prepend'   => '',
+				'choices'	=> static::$timezones,
+				'default_value' => static::$default_timezone,
+			),
+			array(
 				'name'      => 'start',
 				'label'     => __( 'Start', 'site-functionality' ),
-				'acf_type'  => 'date_time_picker',
-				'meta_type' => 'DATETIME',
+				'type'  => 'date_time_picker',
 				'prepend'   => '',
 			),
 			array(
 				'name'      => 'end',
 				'label'     => __( 'End', 'site-functionality' ),
-				'acf_type'  => 'date_time_picker',
-				'meta_type' => 'DATETIME',
+				'type'  => 'date_time_picker',
 				'prepend'   => '',
 			),
 			array(
 				'name'      => 'location',
 				'label'     => __( 'Location', 'site-functionality' ),
-				'acf_type'  => 'text',
-				'meta_type' => 'string',
+				'type'  => 'text',
 				'prepend'   => '',
 			),
 			array(
 				'name'      => 'organizer_name',
 				'label'     => __( 'Organizer Name', 'site-functionality' ),
-				'acf_type'  => 'text',
-				'meta_type' => 'string',
+				'type'  => 'text',
 				'prepend'   => '',
 			),
 			array(
 				'name'      => 'organizer_email',
 				'label'     => __( 'Email', 'site-functionality' ),
-				'acf_type'  => 'email',
-				'meta_type' => 'string',
+				'type'  => 'email',
 				'prepend'   => '',
 			),
 		);
@@ -106,7 +133,7 @@ class Event extends Post_Type {
 					'label'             => $field['label'],
 					'name'              => $field['name'],
 					'aria-label'        => '',
-					'type'              => $field['acf_type'],
+					'type'              => $field['type'],
 					'instructions'      => '',
 					'required'          => 0,
 					'conditional_logic' => 0,
@@ -115,19 +142,21 @@ class Event extends Post_Type {
 						'class' => '',
 						'id'    => '',
 					),
-					'default_value'     => '',
+					'default_value'     => (array_key_exists('default_value',  $field) ) ? $field['default_value'] : '' ,
 					'maxlength'         => '',
 					'placeholder'       => '',
 					'prepend'           => $field['prepend'],
 					'append'            => '',
 				);
-				if ( 'number' === $field['acf_type'] && isset( $field['step'] ) ) {
-					$array['step'] = $field['step'];
+				if ( $field['type'] === 'select' ) {
+					$array['choices'] = $field['choices'];
 				}
+
 				return $array;
 			},
 			static::$fields
 		);
+
 
 		$args = array(
 			'key'                   => 'abcnr-event-fields',
@@ -154,27 +183,28 @@ class Event extends Post_Type {
 		);
 
 		acf_add_local_field_group( $args );
-	}
-
-	/**
-	 * Register Meta
-	 *
-	 * @return void
-	 */
-	public function register_meta(): void {
-		foreach ( self::$fields as $field ) {
-			register_post_meta(
-				static::$post_type['id'],
-				$field['name'],
-				array(
-					'type'         => $field['type'],
-					'single'       => true,
-					'show_in_rest' => true,
-				)
-			);
-		}
 
 	}
+
+
+	// /**
+	//  * Register Meta
+	//  *
+	//  * @return void
+	//  */
+	// public function register_meta(): void {
+	// 	foreach ( self::$fields as $field ) {
+	// 		register_post_meta(
+	// 			static::$post_type['id'],
+	// 			$field['name'],
+	// 			array(
+	// 				'type'         => $field['type'],
+	// 				'single'       => true,
+	// 				'show_in_rest' => true,
+	// 			)
+	// 		);
+	// 	}
+	// }
 
 	/**
 	 * Modify Date Picker Field

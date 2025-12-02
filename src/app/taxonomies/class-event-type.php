@@ -33,7 +33,14 @@ class Event_Type extends Taxonomy {
 		'archive'     => false,
 		'with_front'  => false,
 		'rest'        => 'event-types',
+		// 'capabilities'      => array(
+		// 	'manage_event-types' => 'activate_plugins',
+		// 	'edit_event-types' => 'activate_plugins',
+		// 	'delete_event-types' => 'activate_plugins',
+		// 	'assign_event-type' => 'edit_posts'
+		// )
 	);
+
 
 	/**
 	 * Constructor.
@@ -44,7 +51,7 @@ class Event_Type extends Taxonomy {
 		parent::__construct( $settings );
 
 		\add_action( 'init', array( $this, 'rewrite_rules' ), 10, 0 );
-	}
+}
 
 	/**
 	 * Add rewrite rules

@@ -38,6 +38,7 @@ intermediate
 .idea
 cache
 
+/src/app/blocks/build/
 node_modules
 scratch
 src/vendor-prefixed/

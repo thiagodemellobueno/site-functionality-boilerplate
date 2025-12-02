@@ -58,19 +58,19 @@ define( 'SITE_FUNCTIONALITY_URL', trailingslashit( plugins_url( plugin_basename(
 register_activation_hook( __FILE__, array( Activator::class, 'activate' ) );
 register_deactivation_hook( __FILE__, array( Deactivator::class, 'deactivate' ) );
 
-// disable comments globally
+/**
+ * 
+ * Disable comments globally
+ */
 add_action('admin_init', function () {
     // Redirect any user trying to access comments page
     global $pagenow;
-
     if ($pagenow === 'edit-comments.php') {
         wp_safe_redirect(admin_url());
         exit;
     }
-
     // Remove comments metabox from dashboard
     remove_meta_box('dashboard_recent_comments', 'dashboard', 'normal');
-
     // Disable support for comments and trackbacks in post types
     foreach (get_post_types() as $post_type) {
         if (post_type_supports($post_type, 'comments')) {
@@ -79,7 +79,7 @@ add_action('admin_init', function () {
         }
     }
 });
-add_filter('acf/settings/show_admin', '__return_false');
+
 // Close comments on the front-end
 add_filter('comments_open', '__return_false', 20, 2);
 add_filter('pings_open', '__return_false', 20, 2);
@@ -98,6 +98,22 @@ add_action('init', function () {
         remove_action('admin_bar_menu', 'wp_admin_bar_comments_menu', 60);
     }
 });
+
+register_activation_hook( __FILE__, function () {
+        // gets the author role
+        $editor = get_role( 'editor' );
+        $editor->add_cap( 'assign_collective_association' );
+        $author = get_role('author' );
+        $author->add_cap( 'assign_collective_association' );
+    });
+
+/**
+ * 
+ * Hides ACF settings across the board
+ * We are seeing ACF stuff as "dev defined."
+ * Open to relaxing this if we have valid use cases for exposing ACF features.
+ */
+add_filter('acf/settings/show_admin', '__return_false');
 
 /**
  * Begins execution of the plugin.
